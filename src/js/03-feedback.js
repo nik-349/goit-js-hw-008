@@ -14,7 +14,7 @@ checkData()
 //================================================================//
 function formValidBlur() {
    if (this.value === '') {
-      //  this.classList.add('error__completed')
+       this.classList.add('error__completed')
         return alert('Everything must be completed!')
    } else if (this.value !== '') {
       this.classList.remove('error__completed')
