@@ -55,8 +55,8 @@ function checkData() {
    const form = localStorage.getItem("feedback-form-state")
    const parsForm = JSON.parse(form)
    if (form) {
-      refInputEmail.value = parsForm.email
-      refInputMessage.value = parsForm.message
+      refInputEmail.value = parsForm.email || '';
+      refInputMessage.value = parsForm.message || '';
    }
 }
 //===============================================================//
