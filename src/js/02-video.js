@@ -12,6 +12,7 @@ player.setCurrentTime(storage);
 player.on('timeupdate',throttle(function (data) {
     time = data.seconds
 localStorage.setItem('videoplayer-current-time', time )  
-},1000));
+},1001));
+
 
 
