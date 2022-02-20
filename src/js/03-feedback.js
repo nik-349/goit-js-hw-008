@@ -35,7 +35,7 @@ function onFormSubmit (event) {
 function checkLocalStorage() {
     const recordLocalStorage = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (recordLocalStorage) {        
-        refs.input.value = recordLocalStorage.email;
-        refs.message.value = recordLocalStorage.message;
+        refs.input.value = recordLocalStorage.email || "";
+        refs.message.value = recordLocalStorage.message || "";
     }
 }
