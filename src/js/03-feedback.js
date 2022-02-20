@@ -1,64 +1,41 @@
-import throttle from "lodash.throttle"
-//===============================================================//
-const refInputForm = document.querySelector('.feedback-form')
-const refInputEmail = document.querySelector('[name = email]')
-const refInputMessage = document.querySelector('[name = message]')
-//================================================================//
-refInputForm.addEventListener('submit', formInteraction)
-refInputForm.addEventListener('input', throttle(formLocalStorage, 1000))
-refInputEmail.addEventListener('blur', formValidBlur)
-refInputMessage.addEventListener('blur', formValidBlur)
-//================================================================//
-const formData = {};
-checkData()
-//================================================================//
-function formValidBlur() {
-   if (this.value === '') {
-       this.classList.add('error__completed')
-        return alert('Everything must be completed!')
-   } else if (this.value !== '') {
-      this.classList.remove('error__completed')
+import throttle from "lodash.throttle";
+
+const refs = {
+    form: document.querySelector("form"),
+    input: document.querySelector("input"),
+    message: document.querySelector("textarea"),
+    
+}
+
+let formData = {};
+const STORAGE_KEY = "feedback-form-state"
+
+refs.form.addEventListener("input", throttle(onFormInput,500));
+refs.form.addEventListener("submit", onFormSubmit);
+checkLocalStorage();
+
+function onFormInput () {
+    formData = {
+        email: refs.input.value,
+        message: refs.message.value,
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+    
+}
+
+function onFormSubmit (event) {
+    event.preventDefault();
+    console.log( JSON.parse(localStorage.getItem(STORAGE_KEY)));
+    event.currentTarget.reset();
+    
+    localStorage.removeItem(STORAGE_KEY);
+    
+}
+
+function checkLocalStorage() {
+    const recordLocalStorage = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (recordLocalStorage) {        
+        refs.input.value = recordLocalStorage.email;
+        refs.message.value = recordLocalStorage.message;
     }
 }
-//===============================================================//
-
-
-function formInteraction(event) {
-    event.preventDefault()
-   const formEl = event.currentTarget.elements;
-   const elMail = formEl.email.value;
-   const elMessage = formEl.message.value;
-    if (elMail === '' || elMessage === '') {
-       return alert('Everything must be completed!');        
-    } else {
-       
-        console.log({
-            email: elMail,
-            password: elMessage
-        })
-       localStorage.removeItem("feedback-form-state")
-    }
-    refInputForm.reset()
-}
-//===============================================================//
-
-function formLocalStorage(e) {
-   e.preventDefault()
-   formData[e.target.name] = e.target.value;
-   localStorage.setItem("feedback-form-state", JSON.stringify(formData))
-
-}
-
-//===============================================================//
-function checkData() {
-
-   const form = localStorage.getItem("feedback-form-state")
-   const parsForm = JSON.parse(form)
-   if (form) {
-      refInputEmail.value = parsForm.email || '';
-      refInputMessage.value = parsForm.message || '';
-   }
-}
-//===============================================================//
-
-//===============================================================//
