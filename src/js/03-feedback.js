@@ -23,8 +23,14 @@ function onFormInput () {
     
 }
 
-function onFormSubmit (event) {
-    event.preventDefault();
+function onFormSubmit(event) {
+    event.preventDefault()
+    const formEl = event.currentTarget.elements;
+   const elMail = formEl.email.value;
+   const elMessage = formEl.message.value;
+    if (elMail === '' || elMessage === '') {
+       return alert('Everything must be completed!');        
+    }
     console.log( JSON.parse(localStorage.getItem(STORAGE_KEY)));
     event.currentTarget.reset();
     
